@@ -21,7 +21,6 @@
     <table v-if="transactions.length">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Cliente</th>
           <th>Acción</th>
           <th>Cripto</th>
@@ -33,7 +32,6 @@
       </thead>
       <tbody>
         <tr v-for="t in transactions" :key="t.id">
-          <td>{{ t.id }}</td>
           <td>{{ clientName(t.clientId) }}</td>
           <td>{{ t.action }}</td>
           <td>{{ t.cryptoCode }}</td>
@@ -59,7 +57,7 @@
         <p><strong>Acción:</strong> {{ viewing.action }}</p>
         <p><strong>Cripto:</strong> {{ viewing.cryptoCode }}</p>
         <p><strong>Cantidad:</strong> {{ viewing.cryptoAmount }}</p>
-        <p><strong>Dinero:</strong> {{ viewing.money }}</p>
+        <p><strong>Dinero:</strong> {{ viewing.money }} ARS</p>
         <p>
           <strong>Fecha:</strong>
           {{ new Date(viewing.dateTime).toLocaleString() }}
@@ -71,7 +69,7 @@
     <!-- Modal simple de edición solo de dinero -->
     <div v-if="editing" class="modal">
       <div class="modal-content">
-        <h3>Editar transacción #{{ editing.id }}</h3>
+        <h3>Editar transacción</h3>
         <label>
           Dinero (ARS)
           <input v-model.number="editingMoney" type="number" step="0.01" />
@@ -79,6 +77,20 @@
         <div style="margin-top: 1rem">
           <button @click="saveEdit">Guardar</button>
           <button @click="cancelEdit">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmación de eliminación -->
+    <div v-if="deleting" class="modal">
+      <div class="modal-content">
+        <h3>Confirmar eliminación</h3>
+        <p>¿Estás seguro que deseas eliminar esta transacción?</p>
+        <div style="margin-top: 1rem">
+          <button @click="confirmDelete" style="background-color: #dc3545">
+            Eliminar
+          </button>
+          <button @click="cancelDelete">Cancelar</button>
         </div>
       </div>
     </div>
@@ -96,6 +108,7 @@ const error = ref("");
 
 const viewing = ref(null);
 const editing = ref(null);
+const deleting = ref(null);
 const editingMoney = ref(0);
 
 async function loadClients() {
@@ -157,18 +170,28 @@ async function saveEdit() {
   }
 }
 
-async function deleteTransaction(t) {
-  if (!confirm(`¿Seguro que deseas borrar la transacción #${t.id}?`)) return;
+function deleteTransaction(t) {
+  deleting.value = { ...t };
+}
+
+function cancelDelete() {
+  deleting.value = null;
+}
+
+async function confirmDelete() {
+  if (!deleting.value) return;
   try {
-    const res = await fetch(`${API_BASE}/Transaction/${t.id}`, {
+    const res = await fetch(`${API_BASE}/Transaction/${deleting.value.id}`, {
       method: "DELETE",
     });
     if (!res.ok) {
       throw new Error("Error al borrar la transacción");
     }
+    deleting.value = null;
     await loadTransactions();
   } catch (e) {
     error.value = e.message;
+    deleting.value = null;
   }
 }
 

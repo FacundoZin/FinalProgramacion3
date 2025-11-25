@@ -22,14 +22,12 @@
     <table v-if="clients.length">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre</th>
           <th>Email</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="c in clients" :key="c.id">
-          <td>{{ c.id }}</td>
           <td>{{ c.name }}</td>
           <td>{{ c.email }}</td>
         </tr>
