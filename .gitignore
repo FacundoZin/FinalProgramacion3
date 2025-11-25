@@ -1,0 +1,80 @@
+# --- General / OS ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- IDEs ---
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+
+# --- .NET / C# Backend ---
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+*.lock
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Debug files
+*.pdb
+*.cache
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Configuration
+appsettings.Development.json
+appsettings.Local.json
+# Keep appsettings.json but ignore secrets if any (usually appsettings.json is committed)
+
+# --- Vue.js / Node Frontend ---
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
