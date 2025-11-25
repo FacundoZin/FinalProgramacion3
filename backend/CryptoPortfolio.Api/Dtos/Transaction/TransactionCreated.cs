@@ -1,10 +1,13 @@
-﻿using CryptoPortfolio.Api.Models;
-
-namespace CryptoPortfolio.Api.Dtos.Transaction
+﻿namespace CryptoPortfolio.Api.Dtos.Transaction
 {
     public class TransactionCreated
     {
         public int Id { get; set; }
-        public CryptoTransaction Info { get; set; }
+        public string CryptoCode { get; set; } = "";
+        public string Action { get; set; } = "";
+        public int ClientId { get; set; }
+        public decimal CryptoAmount { get; set; }
+        public decimal Money { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

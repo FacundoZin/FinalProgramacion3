@@ -68,7 +68,16 @@ namespace CryptoPortfolio.Api.Services
             _Context.Transactions.Add(transaction);
             await _Context.SaveChangesAsync();
 
-            return Result<TransactionCreated>.Exito(new TransactionCreated { Id = transaction.Id, Info = transaction});
+            return Result<TransactionCreated>.Exito(new TransactionCreated 
+            { 
+                Id = transaction.Id,
+                CryptoCode = transaction.CryptoCode,
+                Action = transaction.Action,
+                ClientId = transaction.ClientId,
+                CryptoAmount = transaction.CryptoAmount,
+                Money = transaction.Money,
+                DateTime = transaction.DateTime
+            });
         }
 
         public async Task<Result<object>> DeleteTransactionById(int idTransaction)
