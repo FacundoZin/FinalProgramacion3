@@ -32,9 +32,11 @@ namespace CryptoPortfolio.Api.Services
 
             if (dto.Action == "sale")
             {
-                var balance = await _Context.Transactions
+                var transactions = await _Context.Transactions
                     .Where(t => t.ClientId == dto.ClientId && t.CryptoCode == dto.CryptoCode)
-                    .SumAsync(t => t.Action == "purchase" ? t.CryptoAmount : -t.CryptoAmount);
+                    .ToListAsync();
+                
+                var balance = transactions.Sum(t => t.Action == "purchase" ? t.CryptoAmount : -t.CryptoAmount);
 
                 if (balance < dto.CryptoAmount)
                     return Result<TransactionCreated>.Error("El cliente no tiene saldo suficiente para esta venta", 404);
