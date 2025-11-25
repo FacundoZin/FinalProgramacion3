@@ -1,4 +1,3 @@
-
 <template>
   <section>
     <h2>Nueva transacción</h2>
@@ -27,7 +26,13 @@
 
       <label>
         Cantidad
-        <input v-model.number="cryptoAmount" type="number" step="0.00000001" min="0" required />
+        <input
+          v-model.number="cryptoAmount"
+          type="number"
+          step="0.00000001"
+          min="0"
+          required
+        />
       </label>
 
       <label>
@@ -51,64 +56,64 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { API_BASE } from '../apiConfig.js'
+import { ref, onMounted } from "vue";
+import { API_BASE } from "../apiConfig.js";
 
-const action = ref('purchase')
-const cryptoCode = ref('btc')
-const cryptoAmount = ref(0)
-const clientId = ref('')
-const datetime = ref(new Date().toISOString().slice(0, 16))
-const clients = ref([])
-const error = ref('')
-const success = ref('')
+const action = ref("purchase");
+const cryptoCode = ref("btc");
+const cryptoAmount = ref(0);
+const clientId = ref("");
+const datetime = ref(new Date().toISOString().slice(0, 16));
+const clients = ref([]);
+const error = ref("");
+const success = ref("");
 
-async function loadClients () {
+async function loadClients() {
   try {
-    const res = await fetch(`${API_BASE}/clients`)
-    clients.value = await res.json()
+    const res = await fetch(`${API_BASE}/Client`);
+    clients.value = await res.json();
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }
 
-async function createTransaction () {
-  error.value = ''
-  success.value = ''
+async function createTransaction() {
+  error.value = "";
+  success.value = "";
 
   if (!clientId.value) {
-    error.value = 'Debes seleccionar un cliente'
-    return
+    error.value = "Debes seleccionar un cliente";
+    return;
   }
   if (cryptoAmount.value <= 0) {
-    error.value = 'La cantidad debe ser mayor a 0'
-    return
+    error.value = "La cantidad debe ser mayor a 0";
+    return;
   }
 
   try {
-    const res = await fetch(`${API_BASE}/transactions`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const res = await fetch(`${API_BASE}/Transaction`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         cryptoCode: cryptoCode.value,
         action: action.value,
         clientId: Number(clientId.value),
         cryptoAmount: Number(cryptoAmount.value),
-        dateTime: new Date(datetime.value).toISOString()
-      })
-    })
+        dateTime: new Date(datetime.value).toISOString(),
+      }),
+    });
 
     if (!res.ok) {
-      const text = await res.text()
-      throw new Error(text || 'Error al crear la transacción')
+      const text = await res.text();
+      throw new Error(text || "Error al crear la transacción");
     }
 
-    success.value = 'Transacción guardada correctamente'
-    cryptoAmount.value = 0
+    success.value = "Transacción guardada correctamente";
+    cryptoAmount.value = 0;
   } catch (e) {
-    error.value = e.message
+    error.value = e.message;
   }
 }
 
-onMounted(loadClients)
+onMounted(loadClients);
 </script>

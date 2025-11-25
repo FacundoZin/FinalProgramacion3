@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoPortfolio.Api.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class TransactionController : Controller
     {
         private readonly ITransactionService _transactionService;
@@ -32,7 +34,7 @@ namespace CryptoPortfolio.Api.Controllers
             return Ok(result.Data);
         }
 
-        [HttpGet("transaction/{idTransaction:int}")]
+        [HttpGet("{idTransaction:int}")]
         public async Task<IActionResult> GetTransactionById(int idTransaction)
         {
             var result = await _transactionService.GetUserTransactions(idTransaction);

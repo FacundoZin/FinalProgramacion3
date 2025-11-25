@@ -1,4 +1,3 @@
-
 <template>
   <section>
     <h2>Dar de alta un nuevo cliente</h2>
@@ -19,7 +18,7 @@
       <button type="submit">Guardar cliente</button>
     </form>
 
-    <h3 style="margin-top:2rem">Clientes registrados</h3>
+    <h3 style="margin-top: 2rem">Clientes registrados</h3>
     <table v-if="clients.length">
       <thead>
         <tr>
@@ -41,47 +40,47 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { API_BASE } from '../apiConfig.js'
+import { ref, onMounted } from "vue";
+import { API_BASE } from "../apiConfig.js";
 
-const name = ref('')
-const email = ref('')
-const error = ref('')
-const success = ref('')
-const clients = ref([])
+const name = ref("");
+const email = ref("");
+const error = ref("");
+const success = ref("");
+const clients = ref([]);
 
-async function loadClients () {
+async function loadClients() {
   try {
-    const res = await fetch(`${API_BASE}/clients`)
-    clients.value = await res.json()
+    const res = await fetch(`${API_BASE}/client`);
+    clients.value = await res.json();
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }
 
-async function createClient () {
-  error.value = ''
-  success.value = ''
+async function createClient() {
+  error.value = "";
+  success.value = "";
   try {
-    const res = await fetch(`${API_BASE}/clients`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name.value, email: email.value })
-    })
+    const res = await fetch(`${API_BASE}/client`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name.value, email: email.value }),
+    });
 
     if (!res.ok) {
-      const text = await res.text()
-      throw new Error(text || 'Error al crear el cliente')
+      const text = await res.text();
+      throw new Error(text || "Error al crear el cliente");
     }
 
-    name.value = ''
-    email.value = ''
-    success.value = 'Cliente creado correctamente'
-    await loadClients()
+    name.value = "";
+    email.value = "";
+    success.value = "Cliente creado correctamente";
+    await loadClients();
   } catch (e) {
-    error.value = e.message
+    error.value = e.message;
   }
 }
 
-onMounted(loadClients)
+onMounted(loadClients);
 </script>

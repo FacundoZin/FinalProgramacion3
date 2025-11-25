@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoPortfolio.Api.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ClientController : Controller
     {
         private readonly IAccountClientService _accountClientService;

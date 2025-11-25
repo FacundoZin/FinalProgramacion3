@@ -1,8 +1,10 @@
-
 <template>
   <section>
     <h2>Análisis del estado actual</h2>
-    <p>Selecciona un cliente para ver sus criptomonedas actuales y su valor estimado en ARS.</p>
+    <p>
+      Selecciona un cliente para ver sus criptomonedas actuales y su valor
+      estimado en ARS.
+    </p>
 
     <div class="filters">
       <label>
@@ -42,48 +44,50 @@
       </tfoot>
     </table>
 
-    <p v-else-if="clientId && !loading">El cliente no tiene criptomonedas actualmente.</p>
+    <p v-else-if="clientId && !loading">
+      El cliente no tiene criptomonedas actualmente.
+    </p>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { API_BASE } from '../apiConfig.js'
+import { ref, onMounted } from "vue";
+import { API_BASE } from "../apiConfig.js";
 
-const clients = ref([])
-const clientId = ref(0)
-const items = ref([])
-const totalMoney = ref(0)
-const error = ref('')
-const loading = ref(false)
+const clients = ref([]);
+const clientId = ref(0);
+const items = ref([]);
+const totalMoney = ref(0);
+const error = ref("");
+const loading = ref(false);
 
-async function loadClients () {
+async function loadClients() {
   try {
-    const res = await fetch(`${API_BASE}/clients`)
-    clients.value = await res.json()
+    const res = await fetch(`${API_BASE}/client`);
+    clients.value = await res.json();
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }
 
-async function loadAnalysis () {
-  if (!clientId.value) return
-  error.value = ''
-  loading.value = true
+async function loadAnalysis() {
+  if (!clientId.value) return;
+  error.value = "";
+  loading.value = true;
   try {
-    const res = await fetch(`${API_BASE}/analysis/${clientId.value}`)
-    if (!res.ok) throw new Error('No se pudo obtener el análisis')
-    const data = await res.json()
-    items.value = data.items || []
-    totalMoney.value = data.totalMoney || 0
+    const res = await fetch(`${API_BASE}/Analysis/${clientId.value}`);
+    if (!res.ok) throw new Error("No se pudo obtener el análisis");
+    const data = await res.json();
+    items.value = data.items || [];
+    totalMoney.value = data.totalMoney || 0;
   } catch (e) {
-    error.value = e.message
+    error.value = e.message;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
-onMounted(loadClients)
+onMounted(loadClients);
 </script>
 
 <style scoped>

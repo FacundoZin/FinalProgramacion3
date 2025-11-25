@@ -1,4 +1,3 @@
-
 <template>
   <section>
     <h2>Historial de movimientos</h2>
@@ -61,7 +60,10 @@
         <p><strong>Cripto:</strong> {{ viewing.cryptoCode }}</p>
         <p><strong>Cantidad:</strong> {{ viewing.cryptoAmount }}</p>
         <p><strong>Dinero:</strong> {{ viewing.money }}</p>
-        <p><strong>Fecha:</strong> {{ new Date(viewing.dateTime).toLocaleString() }}</p>
+        <p>
+          <strong>Fecha:</strong>
+          {{ new Date(viewing.dateTime).toLocaleString() }}
+        </p>
         <button @click="viewing = null">Cerrar</button>
       </div>
     </div>
@@ -74,7 +76,7 @@
           Dinero (ARS)
           <input v-model.number="editingMoney" type="number" step="0.01" />
         </label>
-        <div style="margin-top:1rem">
+        <div style="margin-top: 1rem">
           <button @click="saveEdit">Guardar</button>
           <button @click="cancelEdit">Cancelar</button>
         </div>
@@ -84,99 +86,96 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { API_BASE } from '../apiConfig.js'
+import { ref, onMounted } from "vue";
+import { API_BASE } from "../apiConfig.js";
 
-const clients = ref([])
-const transactions = ref([])
-const selectedClientId = ref(0)
-const error = ref('')
+const clients = ref([]);
+const transactions = ref([]);
+const selectedClientId = ref(0);
+const error = ref("");
 
-const viewing = ref(null)
-const editing = ref(null)
-const editingMoney = ref(0)
+const viewing = ref(null);
+const editing = ref(null);
+const editingMoney = ref(0);
 
-async function loadClients () {
+async function loadClients() {
   try {
-    const res = await fetch(`${API_BASE}/clients`)
-    clients.value = await res.json()
+    const res = await fetch(`${API_BASE}/client`);
+    clients.value = await res.json();
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }
 
-async function loadTransactions () {
-  error.value = ''
+async function loadTransactions() {
+  error.value = "";
   try {
-    let url = `${API_BASE}/transactions`
-    if (selectedClientId.value && selectedClientId.value !== 0) {
-      url += `?clientId=${selectedClientId.value}`
-    }
-    const res = await fetch(url)
+    let url = `${API_BASE}/Transaction/client/${selectedClientId.value || 0}`;
+    const res = await fetch(url);
     if (!res.ok) {
-      throw new Error('No se pudieron obtener las transacciones')
+      throw new Error("No se pudieron obtener las transacciones");
     }
-    transactions.value = await res.json()
+    transactions.value = await res.json();
   } catch (e) {
-    error.value = e.message
+    error.value = e.message;
   }
 }
 
-function clientName (id) {
-  const c = clients.value.find(x => x.id === id)
-  return c ? c.name : `#${id}`
+function clientName(id) {
+  const c = clients.value.find((x) => x.id === id);
+  return c ? c.name : `#${id}`;
 }
 
-function viewTransaction (t) {
-  viewing.value = { ...t }
+function viewTransaction(t) {
+  viewing.value = { ...t };
 }
 
-function startEdit (t) {
-  editing.value = { ...t }
-  editingMoney.value = t.money
+function startEdit(t) {
+  editing.value = { ...t };
+  editingMoney.value = t.money;
 }
 
-function cancelEdit () {
-  editing.value = null
+function cancelEdit() {
+  editing.value = null;
 }
 
-async function saveEdit () {
-  if (!editing.value) return
+async function saveEdit() {
+  if (!editing.value) return;
   try {
-    const res = await fetch(`${API_BASE}/transactions/${editing.value.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ money: Number(editingMoney.value) })
-    })
+    const res = await fetch(`${API_BASE}/Transaction/${editing.value.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ money: Number(editingMoney.value) }),
+    });
     if (!res.ok) {
-      throw new Error('Error al guardar cambios')
+      throw new Error("Error al guardar cambios");
     }
-    editing.value = null
-    await loadTransactions()
+    editing.value = null;
+    await loadTransactions();
   } catch (e) {
-    error.value = e.message
+    error.value = e.message;
   }
 }
 
-async function deleteTransaction (t) {
-  if (!confirm(`¿Seguro que deseas borrar la transacción #${t.id}?`)) return
+async function deleteTransaction(t) {
+  if (!confirm(`¿Seguro que deseas borrar la transacción #${t.id}?`)) return;
   try {
-    const res = await fetch(`${API_BASE}/transactions/${t.id}`, {
-      method: 'DELETE'
-    })
+    const res = await fetch(`${API_BASE}/Transaction/${t.id}`, {
+      method: "DELETE",
+    });
     if (!res.ok) {
-      throw new Error('Error al borrar la transacción')
+      throw new Error("Error al borrar la transacción");
     }
-    await loadTransactions()
+    await loadTransactions();
   } catch (e) {
-    error.value = e.message
+    error.value = e.message;
   }
 }
 
 onMounted(async () => {
-  await loadClients()
-  await loadTransactions()
-})
+  await loadClients();
+  await loadTransactions();
+});
 </script>
 
 <style scoped>
@@ -189,7 +188,7 @@ onMounted(async () => {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
