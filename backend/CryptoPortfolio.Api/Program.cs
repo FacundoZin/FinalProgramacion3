@@ -3,6 +3,7 @@ using CryptoPortfolio.Api.Application.Services;
 using CryptoPortfolio.Api.Infrastructure.CriptoYaService;
 using CryptoPortfolio.Api.Domain.Interfaces;
 using CryptoPortfolio.Api.Infrastructure.Data;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,8 +52,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
-app.MapGet("/", () => "Crypto Portfolio API is running");
-
 
 app.Run();
