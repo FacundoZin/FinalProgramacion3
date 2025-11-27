@@ -8,10 +8,18 @@
       </div>
     </div>
     <ul class="nav-links">
-      <li><RouterLink to="/clients">Clientes</RouterLink></li>
-      <li><RouterLink to="/transactions">Nueva transacción</RouterLink></li>
-      <li><RouterLink to="/history">Historial</RouterLink></li>
-      <li><RouterLink to="/analysis">Análisis</RouterLink></li>
+      <li>
+        <RouterLink to="/clients">Clientes</RouterLink>
+      </li>
+      <li>
+        <RouterLink to="/transactions">Nueva transacción</RouterLink>
+      </li>
+      <li>
+        <RouterLink to="/history">Historial</RouterLink>
+      </li>
+      <li>
+        <RouterLink to="/analysis">Análisis</RouterLink>
+      </li>
       <li>
         <RouterLink to="/best-exchange">¿Dónde comprar/vender?</RouterLink>
       </li>

@@ -7,15 +7,13 @@
     </p>
 
     <div class="filters">
-      <label>
-        Cliente
-        <select v-model.number="clientId">
-          <option disabled value="0">Seleccionar cliente</option>
-          <option v-for="c in clients" :key="c.id" :value="c.id">
-            {{ c.name }} ({{ c.email }})
-          </option>
-        </select>
-      </label>
+      <label for="clientId">Cliente</label>
+      <select id="clientId" v-model.number="clientId">
+        <option disabled value="0">Seleccionar cliente</option>
+        <option v-for="c in clients" :key="c.id" :value="c.id">
+          {{ c.name }}
+        </option>
+      </select>
       <button @click="loadAnalysis" :disabled="!clientId">Analizar</button>
     </div>
 
@@ -51,7 +49,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { API_BASE } from "../apiConfig.js";
 
 const clients = ref([]);

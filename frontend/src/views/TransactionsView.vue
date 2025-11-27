@@ -35,7 +35,7 @@
         <select v-model.number="clientId">
           <option disabled value="">Seleccionar cliente</option>
           <option v-for="c in clients" :key="c.id" :value="c.id">
-            {{ c.name }} ({{ c.email }})
+            {{ c.name }}
           </option>
         </select>
       </label>

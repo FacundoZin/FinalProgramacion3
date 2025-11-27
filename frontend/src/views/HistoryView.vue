@@ -4,15 +4,13 @@
     <p>Selecciona un cliente para ver todas sus compras y ventas.</p>
 
     <div class="filters">
-      <label>
-        Cliente
-        <select v-model.number="selectedClientId">
-          <option :value="0">Seleccione un cliente</option>
-          <option v-for="c in clients" :key="c.id" :value="c.id">
-            {{ c.name }} ({{ c.email }})
-          </option>
-        </select>
-      </label>
+      <label for="clientId">Cliente</label>
+      <select id="clientId" v-model.number="selectedClientId">
+        <option :value="0">Seleccione un cliente</option>
+        <option v-for="c in clients" :key="c.id" :value="c.id">
+          {{ c.name }}
+        </option>
+      </select>
       <button @click="loadTransactions">Buscar</button>
     </div>
 
