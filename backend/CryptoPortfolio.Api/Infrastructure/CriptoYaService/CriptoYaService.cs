@@ -35,68 +35,51 @@ public class CriptoYaService
         var response = await _http.GetFromJsonAsync<CriptoYaPriceResponse>(endpoint);
 
         if (response is null)
-            throw new InvalidOperationException("No response from CriptoYa");
+            throw new InvalidOperationException("No pudimos obtener la cotizacion de lasa criptomonedas");
 
         return action == "purchase" ? response.Ask : response.Bid;
     }
 
     public async Task<BestExchangeResult> GetBestExchangeAsync(string cryptoCode, string action)
     {
-        decimal? bestPrice = null;
-        string? bestExchange = null;
 
-        foreach (var ex in Exchanges)
+        var tasks = Exchanges.Select(async exchange =>
         {
             try
             {
-                var endpoint = $"api/{ex}/{cryptoCode.ToLowerInvariant()}/ars";
+                var endpoint = $"api/{exchange}/{cryptoCode.ToLowerInvariant()}/ars";
                 var res = await _http.GetFromJsonAsync<CriptoYaPriceResponse>(endpoint);
-                if (res is null) continue;
 
-                var price = action == "purchase" ? res.Ask : res.Bid;
+                if (res is null)
+                    return (exchange: (string?)null, price: (decimal?)null);
 
-                if (bestPrice is null)
-                {
-                    bestPrice = price;
-                    bestExchange = ex;
-                }
-                else
-                {
-                    if (action == "purchase")
-                    {
-                        // conviene el menor precio de compra
-                        if (price < bestPrice)
-                        {
-                            bestPrice = price;
-                            bestExchange = ex;
-                        }
-                    }
-                    else
-                    {
-                        // conviene el mayor precio de venta
-                        if (price > bestPrice)
-                        {
-                            bestPrice = price;
-                            bestExchange = ex;
-                        }
-                    }
-                }
+                var price = action == "purchase" ? res.TotalAsk : res.TotalBid;
+
+                return (exchange, price);
             }
             catch
             {
-                // ignoramos errores de un exchange
+                return (exchange: (string?)null, price: (decimal?)null);
             }
-        }
+        });
 
-        if (bestPrice is null || bestExchange is null)
+        var results = await Task.WhenAll(tasks);
+
+        var validResults = results.Where(r => r.exchange != null && r.price != null);
+
+        if (!validResults.Any())
             throw new InvalidOperationException("No se pudo obtener información de ningún exchange");
+
+        var best = action == "purchase"
+            ? validResults.OrderBy(ex => ex.price).First()
+            : validResults.OrderByDescending(ex => ex.price).First();
 
         return new BestExchangeResult
         {
             CryptoCode = cryptoCode.ToLowerInvariant(),
             Action = action,
-            Exchange = bestExchange,
-            Price = bestPrice.Value
+            Exchange = best.exchange!,
+            Price = best.price!.Value
         };
     }
 }
