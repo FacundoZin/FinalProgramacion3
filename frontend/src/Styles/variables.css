@@ -1,0 +1,13 @@
+/* Variables CSS globales */
+:root {
+    color-scheme: light;
+    --bg-dark: #0f172a;
+    --bg-light: #f5f7fb;
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --accent: #22d3ee;
+    --text: #0f172a;
+    --muted: #64748b;
+    --card: #ffffff;
+    --border: #e2e8f0;
+}

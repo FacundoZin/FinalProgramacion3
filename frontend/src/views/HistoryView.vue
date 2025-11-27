@@ -7,7 +7,7 @@
       <label>
         Cliente
         <select v-model.number="selectedClientId">
-          <option :value="0">Todos los clientes</option>
+          <option :value="0">Seleccione un cliente</option>
           <option v-for="c in clients" :key="c.id" :value="c.id">
             {{ c.name }} ({{ c.email }})
           </option>
@@ -47,7 +47,7 @@
       </tbody>
     </table>
 
-    <p v-else>No hay transacciones para mostrar.</p>
+    <p v-else>No hay Transacciones</p>
 
     <!-- Modal simple de ver -->
     <div v-if="viewing" class="modal">
@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { API_BASE } from "../apiConfig.js";
 
 const clients = ref([]);
@@ -202,24 +202,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.filters {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modal-content {
-  background: white;
-  padding: 1rem 1.5rem;
-  border-radius: 4px;
-  min-width: 280px;
-}
+@import '../Styles/history-filters.css';
+@import '../Styles/history-table.css';
+@import '../Styles/history-modals.css';
 </style>

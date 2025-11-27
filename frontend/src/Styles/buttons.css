@@ -1,0 +1,28 @@
+/* Estilos de botones globales */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 0.9rem;
+    padding: 0.85rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 20px 35px rgba(99, 102, 241, 0.4);
+}
+
+button.secondary {
+    background: #e2e8f0;
+    color: var(--text);
+    box-shadow: none;
+}
+
+.actions button {
+    margin-right: 0.35rem;
+}

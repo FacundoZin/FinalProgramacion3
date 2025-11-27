@@ -1,8 +1,7 @@
-
 <template>
   <section>
     <h2>¿Dónde comprar o vender?</h2>
-    <p>Selecciona una criptomoneda y el tipo de operación para ver en qué exchange conviene.</p>
+    <p>Selecciona una crypto y encontra el mejor exchange!</p>
 
     <div v-if="error" class="error">{{ error }}</div>
 
@@ -49,7 +48,7 @@ const action = ref('purchase')
 const result = ref(null)
 const error = ref('')
 
-async function findBest () {
+async function findBest() {
   error.value = ''
   result.value = null
   try {

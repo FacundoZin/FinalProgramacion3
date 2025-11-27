@@ -1,0 +1,17 @@
+/* Archivo principal de estilos globales */
+/* Importa todos los archivos CSS de la aplicación en el orden correcto */
+
+/* 1. Variables CSS primero */
+@import './variables.css';
+
+/* 2. Reset y estilos base */
+@import './base.css';
+
+/* 3. Layout y estructura */
+@import './layout.css';
+
+/* 4. Componentes globales */
+@import './forms.css';
+@import './buttons.css';
+@import './tables.css';
+@import './messages.css';

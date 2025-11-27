@@ -1,0 +1,26 @@
+/* Estilos de tablas globales */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    overflow: hidden;
+    font-size: 0.95rem;
+}
+
+thead {
+    background: rgba(15, 23, 42, 0.95);
+    color: #f8fafc;
+}
+
+th,
+td {
+    padding: 0.9rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+tbody tr:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
