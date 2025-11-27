@@ -1,9 +1,8 @@
-
-using CryptoPortfolio.Api.Data;
-using CryptoPortfolio.Api.Models;
-using CryptoPortfolio.Api.Services;
-using CryptoPortfolio.Api.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using CryptoPortfolio.Api.Application.Services;
+using CryptoPortfolio.Api.Infrastructure.CriptoYaService;
+using CryptoPortfolio.Api.Domain.Interfaces;
+using CryptoPortfolio.Api.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
