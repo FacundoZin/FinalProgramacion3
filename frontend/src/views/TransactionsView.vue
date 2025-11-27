@@ -45,11 +45,6 @@
         </select>
       </label>
 
-      <label>
-        Fecha y hora
-        <input v-model="datetime" type="datetime-local" required />
-      </label>
-
       <button type="submit">Guardar transacción</button>
     </form>
   </section>
@@ -63,7 +58,6 @@ const action = ref("purchase");
 const cryptoCode = ref("btc");
 const cryptoAmount = ref(0);
 const clientId = ref("");
-const datetime = ref(new Date().toISOString().slice(0, 16));
 const clients = ref([]);
 const error = ref("");
 const success = ref("");
@@ -99,7 +93,7 @@ async function createTransaction() {
         action: action.value,
         clientId: Number(clientId.value),
         cryptoAmount: Number(cryptoAmount.value),
-        dateTime: new Date(datetime.value).toISOString(),
+        dateTime: new Date().toISOString(),
       }),
     });
 
