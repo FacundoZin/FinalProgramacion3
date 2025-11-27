@@ -26,13 +26,8 @@
 
       <label>
         Cantidad
-        <input
-          v-model.number="cryptoAmount"
-          type="number"
-          step="0.00000001"
-          min="0"
-          required
-        />
+        <input v-model="cryptoAmount" type="text" pattern="[0-9]*\.?[0-9]*" placeholder="0.00000001" min="0.00000001"
+          required />
       </label>
 
       <label>
@@ -51,12 +46,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { API_BASE } from "../apiConfig.js";
 
 const action = ref("purchase");
 const cryptoCode = ref("btc");
-const cryptoAmount = ref(0);
+const cryptoAmount = ref("");
 const clientId = ref("");
 const clients = ref([]);
 const error = ref("");
